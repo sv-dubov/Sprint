@@ -1,7 +1,7 @@
 <?php
 
 include_once ('config/db_connect.php');
-//echo mysqli_connect_error();
+
 include_once ('partials/header.php');
 
 ?>
