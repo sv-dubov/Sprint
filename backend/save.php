@@ -39,7 +39,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'single_delete') {
         $id = $_POST['id'];
-        $sql = "DELETE FROM `users` WHERE id = $id ";
+        $sql = "DELETE FROM `users` WHERE id = $id";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {

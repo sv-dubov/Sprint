@@ -53,7 +53,7 @@ $(document).on("click", ".delete", function () {
     $('#id_d').val(id);
 });
 
-$(document).on("click", "#delete", function () {
+$(document).on("click", "#delete_single", function () {
     $.ajax({
         url: "backend/save.php",
         type: "post",

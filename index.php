@@ -77,22 +77,25 @@ include 'backend/database.php';
                                                     echo '<td class="text-center align-middle"><i class="fa fa-circle not-active-circle"></td>';
                                                 ?>
                                                 <td class="text-center align-middle">
-                                                    <a href="#editUserModal"
-                                                       class="btn btn-sm btn-outline-secondary badge edit"
-                                                       data-toggle="modal">
-                                                        <i class="fa fa-edit update" data-toggle="tooltip"
-                                                           data-id="<?php echo $row["id"]; ?>"
-                                                           data-first_name="<?php echo $row["first_name"]; ?>"
-                                                           data-last_name="<?php echo $row["last_name"]; ?>"
-                                                           data-role="<?php echo $row["role"]; ?>"
-                                                           data-status="<?php echo $row["status"]; ?>"
-                                                           title="Edit"></i>
-                                                    </a>
-                                                    <a href="#deleteUserModal"
-                                                       class="btn btn-sm btn-outline-secondary badge delete"
-                                                       data-id="<?php echo $row["id"]; ?>" data-toggle="modal"><i
-                                                                class="fa fa-trash" data-toggle="tooltip"
-                                                                title="Delete"></i></a>
+                                                    <div class="btn-group align-top">
+                                                        <button class="btn btn-sm btn-outline-secondary badge"
+                                                                type="button" data-toggle="modal"
+                                                                data-target="#editUserModal">
+                                                            <i class="fa fa-edit update" data-toggle="tooltip"
+                                                               data-id="<?php echo $row["id"]; ?>"
+                                                               data-first_name="<?php echo $row["first_name"]; ?>"
+                                                               data-last_name="<?php echo $row["last_name"]; ?>"
+                                                               data-role="<?php echo $row["role"]; ?>"
+                                                               data-status="<?php echo $row["status"]; ?>"
+                                                               title="Edit"></i>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-secondary badge"
+                                                                type="button" data-toggle="modal"
+                                                                data-target="#deleteUserModal"><i
+                                                                    class="fa fa-trash delete" data-toggle="tooltip"
+                                                                    data-id="<?php echo $row["id"]; ?>"
+                                                                    title="Delete"></i></button>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <?php
@@ -171,7 +174,7 @@ include 'backend/database.php';
                                     </div>
                                     <div class="form-group">
                                         <label for="role_u">Role</label>
-                                        </label><select class="form-control" id="role_u" name="role">
+                                        <select class="form-control" id="role_u" name="role">
                                             <option value="User">User</option>
                                             <option value="Admin">Admin</option>
                                         </select>
@@ -189,12 +192,13 @@ include 'backend/database.php';
                                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                     <button type="button" class="btn btn-info" id="update">Update</button>
                                 </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
             <!-- User Delete Form Modal-->
-            <div id="deleteUserModal" class="modal fade">
+            <div class="modal fade" id="deleteUserModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form>
@@ -204,12 +208,12 @@ include 'backend/database.php';
                             </div>
                             <div class="modal-body">
                                 <input type="hidden" id="id_d" name="id" class="form-control">
-                                <p>Are you sure you want to delete chosen record(s)?</p>
+                                <p>Are you sure you want to remove chosen record(s)?</p>
                                 <p class="text-warning"><small>This action cannot be undone</small></p>
                             </div>
                             <div class="modal-footer">
                                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <button type="button" class="btn btn-danger" id="delete">Delete</button>
+                                <button type="button" class="btn btn-danger" id="delete_single">Delete</button>
                             </div>
                         </form>
                     </div>
