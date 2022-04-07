@@ -28,7 +28,7 @@ include 'backend/database.php';
                                     <h6 class="mr-2"><span>Users</span></h6>
                                 </div>
                                 <div class="col-sm-6">
-                                    <a href="#addUserModal" class="btn btn-success" data-toggle="modal">Add user</a>
+                                    <a id="addUser" class="btn btn-success" data-toggle="modal">Add user</a>
                                     <a href="JavaScript:void(0);" class="btn btn-info" id="set_active_multiple">Set
                                         active</a>
                                     <a href="JavaScript:void(0);" class="btn btn-warning" id="set_inactive_multiple">Set
@@ -116,6 +116,8 @@ include 'backend/database.php';
                     <div class="modal-content">
                         <span id="error" style="display: none"></span>
                         <form class="form" id="user_add_form">
+                            <input type="hidden" name="type" id="type">
+                            <input type="hidden" name="id" id="user_id">
                             <div class="modal-header">
                                 <h4 class="modal-title">Add user</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -146,52 +148,8 @@ include 'backend/database.php';
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <input type="hidden" value="add_user" name="type">
                                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                <button type="button" class="btn btn-success" id="btn-add">Add</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- User Edit Form Modal -->
-            <div class="modal fade" role="dialog" tabindex="-1" id="editUserModal">
-                <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <form class="form" id="user_update_form">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Edit user</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            </div>
-                            <div class="modal-body">
-                                <input type="hidden" id="id_u" name="id" class="form-control" required>
-                                <div class="form-group">
-                                    <label for="first_name_u">First name</label>
-                                    <input type="text" id="first_name_u" name="first_name" class="form-control">
-                                    <div class="form-group">
-                                        <label for="last_name_u">Last name</label>
-                                        <input type="text" id="last_name_u" name="last_name" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="role_u">Role</label>
-                                        <select class="form-control" id="role_u" name="role">
-                                            <option value="User">User</option>
-                                            <option value="Admin">Admin</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <label class="switch">
-                                            <input type="checkbox" id="status_u" name="status" class="success">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="hidden" value="edit_user" name="type">
-                                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                                    <button type="button" class="btn btn-info" id="update">Update</button>
-                                </div>
+                                <button type="button" class="btn btn-success" id="btn-add">Save</button>
                             </div>
                         </form>
                     </div>

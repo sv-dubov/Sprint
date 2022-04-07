@@ -1,51 +1,54 @@
-$(document).on('click', '#btn-add', function () {
-    let data = $("#user_add_form").serialize();
+$(document).on('click', '#addUser', function () {
+    $('#addUserModal').modal('show');
+    $('#user_add_form')[0].reset();
+    $('.modal-title').html('Add user');
+    $('#type').val('add_user');
+    $('#user_id').val('');
+});
+
+$(document).on('click', '.update', function () {
+    let user_id = $(this).attr("data-id");
+    let first_name = $(this).attr("data-first_name");
+    let last_name = $(this).attr("data-last_name");
+    let role = $(this).attr("data-role");
+    if ($(this).attr("data-status")) {
+        var status = 1;
+    } else {
+        var status = 0;
+    }
+
+    $('#type').val('edit_user');
+    $('#user_id').val(user_id);
+    $('#first_name').val(first_name);
+    $('#last_name').val(last_name);
+    $('#role').val(role);
+    $('#status').val(status);
+    $('#addUserModal').modal('show');
+    $('.modal-title').html('Edit user');
+});
+
+// add/edit
+$(document).on('click', '#btn-add', function (e) {
+    e.preventDefault();
+    let data = $('#user_add_form').serialize();
     $.ajax({
-        data: data,
-        type: "post",
         url: "backend/save.php",
+        method: "POST",
+        data: data,
         success: function (dataResult) {
+            console.log(data);
             dataResult = JSON.parse(dataResult);
+            console.log(dataResult);
             if (dataResult.statusCode === 200) {
+                $('#btn-add').button('reset');
+                $('#user_add_form')[0].reset();
                 $('#addUserModal').modal('hide');
-                alert('User was added successfully!');
                 location.reload();
             } else if (dataResult.statusCode === 201) {
                 alert(dataResult);
             }
         }
-    });
-});
-
-$(document).on('click', '.update', function () {
-    let id = $(this).attr("data-id");
-    let first_name = $(this).attr("data-first_name");
-    let last_name = $(this).attr("data-last_name");
-    let role = $(this).attr("data-role");
-    if($(this).attr("data-status")) {
-        var status = 1;
-    } else {
-        var status = 0;
-    }
-    $('#id_u').val(id);
-    $('#first_name_u').val(first_name);
-    $('#last_name_u').val(last_name);
-    $('#role_u').val(role);
-    $('#status_u').val(status);
-});
-
-$(document).on('click', '#update', function () {
-    let data = $("#user_update_form").serialize();
-    $.ajax({
-        data: data,
-        type: "post",
-        url: "backend/save.php",
-        success: function () {
-            $('#editUserModal').modal('hide');
-            alert('User was updated successfully!');
-            location.reload();
-        }
-    });
+    })
 });
 
 $(document).on("click", ".delete", function () {
@@ -108,7 +111,7 @@ $(document).on("click", "#set_active_multiple", function () {
     if (user.length < 1) {
         alert("Please, select records");
     } else {
-        MULTIPLE_SET_ACTIVE_WARNING = "Are you sure you want to set chosen " + (user.length > 1 ? "users" : "user") + " active?";
+        MULTIPLE_SET_ACTIVE_WARNING = "Are you sure you want to set selected " + (user.length > 1 ? "users" : "user") + " active?";
         let confirmed = confirm(MULTIPLE_SET_ACTIVE_WARNING);
         if (confirmed === true) {
             let selected_values = user.join(",");
@@ -137,7 +140,7 @@ $(document).on("click", "#set_inactive_multiple", function () {
     if (user.length < 1) {
         alert("Please, select records");
     } else {
-        MULTIPLE_SET_INACTIVE_WARNING = "Are you sure you want to set chosen " + (user.length > 1 ? "users" : "user") + " not active?";
+        MULTIPLE_SET_INACTIVE_WARNING = "Are you sure you want to set selected " + (user.length > 1 ? "users" : "user") + " not active?";
         let confirmed = confirm(MULTIPLE_SET_INACTIVE_WARNING);
         if (confirmed === true) {
             let selected_values = user.join(",");
