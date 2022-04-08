@@ -29,11 +29,13 @@ include 'backend/database.php';
                                 </div>
                                 <div class="col-sm-6">
                                     <a id="addUser" class="btn btn-success" data-toggle="modal">Add user</a>
-                                    <a href="JavaScript:void(0);" class="btn btn-info" id="set_active_multiple">Set
-                                        active</a>
-                                    <a href="JavaScript:void(0);" class="btn btn-warning" id="set_inactive_multiple">Set
-                                        not active</a>
-                                    <a href="JavaScript:void(0);" class="btn btn-danger" id="delete_multiple">Delete</a>
+                                    <select class="form-control" id="actions" style="width:auto;">
+                                        <option selected="selected" value="0" disabled>Please Select</option>
+                                        <option value="1">Set active</option>
+                                        <option value="2">Set not active</option>
+                                        <option value="3">Delete</option>
+                                    </select>
+                                    <button type="button" class="btn btn-info" id="btn-actions">OK</button>
                                 </div>
                             </div>
                             <div class="e-table">
@@ -174,6 +176,21 @@ include 'backend/database.php';
                                 <button type="button" class="btn btn-danger" id="delete_single">Delete</button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Warnings Modal -->
+            <div class="modal" id="warningModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Warning!</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body info-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>

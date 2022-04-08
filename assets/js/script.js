@@ -72,48 +72,21 @@ $(document).on("click", "#delete_single", function () {
     });
 });
 
-$(document).on("click", "#delete_multiple", function () {
+$(document).on("click", "#btn-actions", function () {
+    let action_value = document.getElementById('actions').value;
     let user = [];
     $(".user_checkbox:checked").each(function () {
         user.push($(this).data('user-id'));
     });
     if (user.length < 1) {
-        alert("Please, select records");
+        $('.info-body').html('Please, select records');
+        $('#warningModal').modal('show');
     } else {
-        MULTIPLE_DELETE_WARNING = "Are you sure you want to delete selected " + (user.length > 1 ? "users" : "user") + "?";
-        let confirmed = confirm(MULTIPLE_DELETE_WARNING);
-        if (confirmed === true) {
-            let selected_values = user.join(",");
-            $.ajax({
-                type: "post",
-                url: "backend/save.php",
-                cache: false,
-                data: {
-                    type: 'multiple_delete',
-                    id: selected_values
-                },
-                success: function (response) {
-                    let ids = response.split(",");
-                    for (let i = 0; i < ids.length; i++) {
-                        $("#" + ids[i]).remove();
-                    }
-                }
-            });
+        if (action_value === '0') {
+            $('.info-body').html('Please, select action');
+            $('#warningModal').modal('show');
         }
-    }
-});
-
-$(document).on("click", "#set_active_multiple", function () {
-    let user = [];
-    $(".user_checkbox:checked").each(function () {
-        user.push($(this).data('user-id'));
-    });
-    if (user.length < 1) {
-        alert("Please, select records");
-    } else {
-        MULTIPLE_SET_ACTIVE_WARNING = "Are you sure you want to set selected " + (user.length > 1 ? "users" : "user") + " active?";
-        let confirmed = confirm(MULTIPLE_SET_ACTIVE_WARNING);
-        if (confirmed === true) {
+        if (action_value === '1') {
             let selected_values = user.join(",");
             $.ajax({
                 type: "post",
@@ -124,25 +97,10 @@ $(document).on("click", "#set_active_multiple", function () {
                     id: selected_values
                 },
                 success: function () {
-                        alert('User\'s statuses was set on active!');
-                        location.reload();
+                    location.reload();
                 }
             });
-        }
-    }
-});
-
-$(document).on("click", "#set_inactive_multiple", function () {
-    let user = [];
-    $(".user_checkbox:checked").each(function () {
-        user.push($(this).data('user-id'));
-    });
-    if (user.length < 1) {
-        alert("Please, select records");
-    } else {
-        MULTIPLE_SET_INACTIVE_WARNING = "Are you sure you want to set selected " + (user.length > 1 ? "users" : "user") + " not active?";
-        let confirmed = confirm(MULTIPLE_SET_INACTIVE_WARNING);
-        if (confirmed === true) {
+        } else if (action_value === '2') {
             let selected_values = user.join(",");
             $.ajax({
                 type: "post",
@@ -153,9 +111,29 @@ $(document).on("click", "#set_inactive_multiple", function () {
                     id: selected_values
                 },
                 success: function () {
-                    alert('User\'s statuses was set on not active!');
                     location.reload();
                 }
+            });
+        } else if (action_value === '3') {
+            $('#deleteUserModal').modal('show');
+            let selected_values = user.join(",");
+            $('#delete_single').click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "backend/save.php",
+                    cache: false,
+                    data: {
+                        type: 'multiple_delete',
+                        id: selected_values
+                    },
+                    success: function (response) {
+                        $('#deleteUserModal').modal('hide');
+                        let ids = response.split(",");
+                        for (let i = 0; i < ids.length; i++) {
+                            $("#" + ids[i]).remove();
+                        }
+                    }
+                });
             });
         }
     }
