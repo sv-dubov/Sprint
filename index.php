@@ -30,13 +30,6 @@ include 'backend/database.php';
                             </div>
                             <div class="col-sm-6">
                                 <div class="row">
-                                    <select class="form-control mr-3" id="actions" style="width:auto;">
-                                        <option selected="selected" value="0" disabled>Please Select</option>
-                                        <option value="1">Set active</option>
-                                        <option value="2">Set not active</option>
-                                        <option value="3">Delete</option>
-                                    </select>
-                                    <button type="button" class="btn btn-info mr-5" id="btn-actions">OK</button>
                                     <a id="addUser" class="btn btn-success" data-toggle="modal">Add user</a>
                                 </div>
                             </div>
@@ -108,6 +101,17 @@ include 'backend/database.php';
                                         ?>
                                         </tbody>
                                     </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row">
+                                    <select class="form-control mr-3" id="actions" style="width:auto;">
+                                        <option selected="selected" value="0" disabled>Please Select</option>
+                                        <option value="1">Set active</option>
+                                        <option value="2">Set not active</option>
+                                        <option value="3">Delete</option>
+                                    </select>
+                                    <button type="button" class="btn btn-info" id="btn-actions">OK</button>
                                 </div>
                             </div>
                         </div>
