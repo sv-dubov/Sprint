@@ -6,7 +6,7 @@ body{
     color: green;
 }
 .not-active-circle {
-    color: red;
+    color: gray;
 }
 
 /* The switch - the box around the slider */

@@ -11,18 +11,18 @@ $(document).on('click', '.update', function () {
     let first_name = $(this).attr("data-first_name");
     let last_name = $(this).attr("data-last_name");
     let role = $(this).attr("data-role");
-    if ($(this).attr("data-status")) {
-        var status = 1;
-    } else {
-        var status = 0;
-    }
+    let status = $(this).attr("data-status");
 
     $('#type').val('edit_user');
     $('#user_id').val(user_id);
     $('#first_name').val(first_name);
     $('#last_name').val(last_name);
     $('#role').val(role);
-    $('#status').val(status);
+    if(status == 1) {
+        $("#status").prop('checked', true);
+    } else {
+        $("#status").prop('checked', false);
+    }
     $('#addUserModal').modal('show');
     $('.modal-title').html('Edit user');
 });
@@ -51,12 +51,13 @@ $(document).on('click', '#btn-add', function (e) {
     })
 });
 
-$(document).on("click", ".delete", function () {
+$(document).on('click', '.delete', function () {
+    $('.modal-title-delete').html('Delete user');
     let id = $(this).attr("data-id");
     $('#id_d').val(id);
 });
 
-$(document).on("click", "#delete_single", function () {
+$(document).on('click', '#delete_single', function () {
     $.ajax({
         url: "backend/save.php",
         type: "post",
@@ -73,7 +74,8 @@ $(document).on("click", "#delete_single", function () {
 });
 
 $(document).on("click", "#btn-actions", function () {
-    let action_value = document.getElementById('actions').value;
+    let action_value = $('#actions').val();
+    let action2_value = $('#actions2').val();
     let user = [];
     $(".user_checkbox:checked").each(function () {
         user.push($(this).data('user-id'));
@@ -82,11 +84,11 @@ $(document).on("click", "#btn-actions", function () {
         $('.info-body').html('Please, select records');
         $('#warningModal').modal('show');
     } else {
-        if (action_value === '0') {
+        if (action_value == 0 || action2_value == 0) {
             $('.info-body').html('Please, select action');
             $('#warningModal').modal('show');
         }
-        if (action_value === '1') {
+        if (action_value == 1 || action2_value == 1) {
             let selected_values = user.join(",");
             $.ajax({
                 type: "post",
@@ -100,7 +102,7 @@ $(document).on("click", "#btn-actions", function () {
                     location.reload();
                 }
             });
-        } else if (action_value === '2') {
+        } else if (action_value == 2 || action2_value == 2) {
             let selected_values = user.join(",");
             $.ajax({
                 type: "post",
@@ -114,7 +116,7 @@ $(document).on("click", "#btn-actions", function () {
                     location.reload();
                 }
             });
-        } else if (action_value === '3') {
+        } else if (action_value == 3 || action2_value == 3) {
             $('#deleteUserModal').modal('show');
             let selected_values = user.join(",");
             $('#delete_single').click(function () {
@@ -142,7 +144,7 @@ $(document).on("click", "#btn-actions", function () {
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     let checkbox = $('table tbody input[type="checkbox"]');
-    $("#selectAll").click(function () {
+    $('#selectAll').click(function () {
         if (this.checked) {
             checkbox.each(function () {
                 this.checked = true;
@@ -154,8 +156,10 @@ $(document).ready(function () {
         }
     });
     checkbox.click(function () {
-        if (!this.checked) {
-            $("#selectAll").prop("checked", false);
+        if ($('.user_checkbox').length === $('.user_checkbox:checked').length) {
+            $('#selectAll').prop('checked', true);
+        } else {
+            $('#selectAll').prop('checked', false);
         }
     });
 });

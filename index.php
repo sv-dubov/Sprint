@@ -30,6 +30,13 @@ include 'backend/database.php';
                             </div>
                             <div class="col-sm-6">
                                 <div class="row">
+                                    <select class="form-control mr-3" id="actions" style="width:auto;">
+                                        <option selected="selected" value="0" disabled>Please Select</option>
+                                        <option value="1">Set active</option>
+                                        <option value="2">Set not active</option>
+                                        <option value="3">Delete</option>
+                                    </select>
+                                    <button type="button" class="btn btn-info mr-5" id="btn-actions">OK</button>
                                     <a id="addUser" class="btn btn-success" data-toggle="modal">Add user</a>
                                 </div>
                             </div>
@@ -58,7 +65,7 @@ include 'backend/database.php';
                                             ?>
                                             <tr id="<?php echo $row["id"]; ?>">
                                                 <td class="align-middle">
-                                                    <div class="custom-checkbox">
+                                                    <div class="custom-checkbox" id="checkbox2">
                                                         <input type="checkbox" class="user_checkbox"
                                                                data-user-id="<?php echo $row["id"]; ?>">
                                                         <label for="checkbox2"></label>
@@ -105,13 +112,14 @@ include 'backend/database.php';
                             </div>
                             <div class="col-sm-6">
                                 <div class="row">
-                                    <select class="form-control mr-3" id="actions" style="width:auto;">
+                                    <select class="form-control mr-3" id="actions2" style="width:auto;">
                                         <option selected="selected" value="0" disabled>Please Select</option>
                                         <option value="1">Set active</option>
                                         <option value="2">Set not active</option>
                                         <option value="3">Delete</option>
                                     </select>
-                                    <button type="button" class="btn btn-info" id="btn-actions">OK</button>
+                                    <button type="button" class="btn btn-info mr-5" id="btn-actions">OK</button>
+                                    <a id="addUser" class="btn btn-success" data-toggle="modal">Add user</a>
                                 </div>
                             </div>
                         </div>
@@ -169,7 +177,7 @@ include 'backend/database.php';
                     <div class="modal-content">
                         <form>
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete user</h4>
+                                <h4 class="modal-title-delete">Delete user</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                             </div>
                             <div class="modal-body">
@@ -190,7 +198,7 @@ include 'backend/database.php';
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Warning!</h4>
+                            <h4>Warning!</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body info-body"></div>
