@@ -4,11 +4,11 @@ include 'database.php';
 
 if (count($_POST) > 0) {
     if ($_POST['type'] == 'add_user') {
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
         $role = $_POST['role'];
         $status = $_POST['status'];
-        $sql = "INSERT INTO `users`( `first_name`, `last_name`,`role`,`status`) 
+        $sql = "INSERT INTO `users`(`first_name`, `last_name`,`role`,`status`) 
 		VALUES ('$first_name','$last_name','$role','$status')";
         if (mysqli_query($conn, $sql)) {
             echo json_encode(array("statusCode" => 200));
@@ -22,11 +22,11 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] == 'edit_user') {
         $id = $_POST['id'];
-        $first_name = $_POST['first_name'];
-        $last_name = $_POST['last_name'];
+        $first_name = trim($_POST['first_name']);
+        $last_name = trim($_POST['last_name']);
         $role = $_POST['role'];
         $status = $_POST['status'];
-        $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id=$id";
+        $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id = $id";
         if (mysqli_query($conn, $sql)) {
             echo json_encode(array("statusCode" => 200));
         } else {
@@ -52,7 +52,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_delete') {
         $id = $_POST['id'];
-        $sql = "DELETE FROM users WHERE id in ($id)";
+        $sql = "DELETE FROM `users` WHERE id in ($id)";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {

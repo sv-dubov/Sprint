@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    getUsers();
+});
+
 $(document).on('click', '#addUser', function () {
     $('#addUserModal').modal('show');
     $('#user_add_form')[0].reset();
@@ -18,10 +22,10 @@ $(document).on('click', '.update', function () {
     $('#first_name').val(first_name);
     $('#last_name').val(last_name);
     $('#role').val(role);
-    if(status == 1) {
-        $("#status").prop('checked', true);
+    if (status == 1) {
+        $('#status').prop('checked', true);
     } else {
-        $("#status").prop('checked', false);
+        $('#status').prop('checked', false);
     }
     $('#addUserModal').modal('show');
     $('.modal-title').html('Edit user');
@@ -33,19 +37,19 @@ $(document).on('click', '#btn-add', function (e) {
     let data = $('#user_add_form').serialize();
     $.ajax({
         url: "backend/save.php",
-        method: "POST",
+        type: "POST",
         data: data,
         success: function (dataResult) {
-            console.log(data);
-            dataResult = JSON.parse(dataResult);
-            console.log(dataResult);
-            if (dataResult.statusCode === 200) {
+            let dataRes = JSON.parse(dataResult);
+            if (dataRes.statusCode === 200) {
                 $('#btn-add').button('reset');
                 $('#user_add_form')[0].reset();
                 $('#addUserModal').modal('hide');
-                location.reload();
-            } else if (dataResult.statusCode === 201) {
-                alert(dataResult);
+                //location.reload();
+                $('#usersList').html("");
+                getUsers();
+            } else if (dataRes.statusCode === 201) {
+                alert(dataRes);
             }
         }
     })
@@ -60,7 +64,7 @@ $(document).on('click', '.delete', function () {
 $(document).on('click', '#delete_single', function () {
     $.ajax({
         url: "backend/save.php",
-        type: "post",
+        type: "POST",
         cache: false,
         data: {
             type: 'single_delete',
@@ -69,6 +73,8 @@ $(document).on('click', '#delete_single', function () {
         success: function (dataResult) {
             $('#deleteUserModal').modal('hide');
             $("#" + dataResult).remove();
+            $('#usersList').html("");
+            getUsers();
         }
     });
 });
@@ -91,29 +97,31 @@ $(document).on("click", "#btn-actions", function () {
         if (action_value == 1 || action2_value == 1) {
             let selected_values = user.join(",");
             $.ajax({
-                type: "post",
                 url: "backend/save.php",
+                type: "POST",
                 cache: false,
                 data: {
                     type: 'multiple_set_active',
                     id: selected_values
                 },
                 success: function () {
-                    location.reload();
+                    $('#usersList').html("");
+                    getUsers();
                 }
             });
         } else if (action_value == 2 || action2_value == 2) {
             let selected_values = user.join(",");
             $.ajax({
-                type: "post",
                 url: "backend/save.php",
+                type: "POST",
                 cache: false,
                 data: {
                     type: 'multiple_set_inactive',
                     id: selected_values
                 },
                 success: function () {
-                    location.reload();
+                    $('#usersList').html("");
+                    getUsers();
                 }
             });
         } else if (action_value == 3 || action2_value == 3) {
@@ -121,8 +129,8 @@ $(document).on("click", "#btn-actions", function () {
             let selected_values = user.join(",");
             $('#delete_single').click(function () {
                 $.ajax({
-                    type: "post",
                     url: "backend/save.php",
+                    type: "POST",
                     cache: false,
                     data: {
                         type: 'multiple_delete',
@@ -141,7 +149,50 @@ $(document).on("click", "#btn-actions", function () {
     }
 });
 
-$(document).ready(function () {
+function getUsers() {
+    $.ajax({
+        url: "backend/show.php",
+        type: "GET",
+        dataType: "json",
+        success: function (dataResult) {
+            $.each(dataResult, function (key, value) {
+                let status_color;
+                if (value['status'] == 1)
+                    status_color = "active-circle";
+                else if (value['status'] == 0)
+                    status_color = "not-active-circle";
+                let template = "<tr id='" + value['id'] + "'>" +
+                    "<td class='align-middle'>" +
+                    "<div class='custom-checkbox' id='checkbox2'>" +
+                    "<input type='checkbox' class='user_checkbox' data-user-id='" + value['id'] + "'>" +
+                    "<label for='checkbox2'>" + "</label>" +
+                    "</div>" +
+                    "</td>" +
+                    "<td class='text-nowrap align-middle'>" + value['first_name'] + ' ' + value['last_name'] + "</td>" +
+                    "<td class='text-nowrap align-middle'>" +
+                    "<span>" + value['role'] + "</span>" + "</td>" +
+                    "<td class='text-center align-middle'><i class='fa fa-circle " + status_color + "'></td>" +
+                    "<td class='text-center align-middle'>" +
+                    "<div class='btn-group align-top'>" +
+                    "<button class='btn btn-sm btn-outline-secondary badge' type='button' data-toggle='modal' data-target='#editUserModal'>" +
+                    "<i class='fa fa-edit update' data-toggle='tooltip' data-id='" + value['id'] + "'" +
+                    " data-first_name='" + value['first_name'] + "'" +
+                    " data-last_name='" + value['last_name'] + "'" +
+                    " data-role='" + value['role'] + "'" +
+                    " data-status='" + value['status'] + "'" +
+                    " title='Edit'>" + "</i>" + "</button>" +
+                    "<button class='btn btn-sm btn-outline-secondary badge' type='button' data-toggle='modal' data-target='#deleteUserModal'>" +
+                    "<i class='fa fa-trash delete' data-toggle='tooltip' data-id='" + value['id'] + "'" +
+                    " title='Delete'>" + "</i>" + "</button>" +
+                    "</div>" + "</td>" + "</tr>";
+                $('#usersList').append(template);
+            });
+            checkboxTooltip();
+        }
+    });
+}
+
+function checkboxTooltip() {
     $('[data-toggle="tooltip"]').tooltip();
     let checkbox = $('table tbody input[type="checkbox"]');
     $('#selectAll').click(function () {
@@ -162,4 +213,4 @@ $(document).ready(function () {
             $('#selectAll').prop('checked', false);
         }
     });
-});
+}

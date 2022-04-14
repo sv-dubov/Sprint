@@ -1,7 +1,3 @@
-<?php
-include 'backend/database.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,8 +37,8 @@ include 'backend/database.php';
                                 </div>
                             </div>
                             <div class="e-table">
-                                <div class="table-responsive table-lg mt-3">
-                                    <table class="table table-bordered">
+                                <div class="table-responsive table-lg mt-3" id="table-users">
+                                    <table class="table table-bordered" id="userTable">
                                         <thead>
                                         <tr>
                                             <th class="align-top">
@@ -57,56 +53,7 @@ include 'backend/database.php';
                                             <th>Actions</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
-                                        <?php
-                                        $result = mysqli_query($conn, "SELECT * FROM users");
-                                        $i = 1;
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            ?>
-                                            <tr id="<?php echo $row["id"]; ?>">
-                                                <td class="align-middle">
-                                                    <div class="custom-checkbox" id="checkbox2">
-                                                        <input type="checkbox" class="user_checkbox"
-                                                               data-user-id="<?php echo $row["id"]; ?>">
-                                                        <label for="checkbox2"></label>
-                                                    </div>
-                                                </td>
-                                                <td class="text-nowrap align-middle"><?php echo $row["first_name"] . ' ' . $row["last_name"]; ?></td>
-                                                <td class="text-nowrap align-middle">
-                                                    <span><?php echo $row["role"]; ?></span></td>
-                                                <?php
-                                                if ($row["status"] == 1)
-                                                    echo '<td class="text-center align-middle"><i class="fa fa-circle active-circle"></td>';
-                                                elseif ($row["status"] == 0)
-                                                    echo '<td class="text-center align-middle"><i class="fa fa-circle not-active-circle"></td>';
-                                                ?>
-                                                <td class="text-center align-middle">
-                                                    <div class="btn-group align-top">
-                                                        <button class="btn btn-sm btn-outline-secondary badge"
-                                                                type="button" data-toggle="modal"
-                                                                data-target="#editUserModal">
-                                                            <i class="fa fa-edit update" data-toggle="tooltip"
-                                                               data-id="<?php echo $row["id"]; ?>"
-                                                               data-first_name="<?php echo $row["first_name"]; ?>"
-                                                               data-last_name="<?php echo $row["last_name"]; ?>"
-                                                               data-role="<?php echo $row["role"]; ?>"
-                                                               data-status="<?php echo $row["status"]; ?>"
-                                                               title="Edit"></i>
-                                                        </button>
-                                                        <button class="btn btn-sm btn-outline-secondary badge"
-                                                                type="button" data-toggle="modal"
-                                                                data-target="#deleteUserModal"><i
-                                                                    class="fa fa-trash delete" data-toggle="tooltip"
-                                                                    data-id="<?php echo $row["id"]; ?>"
-                                                                    title="Delete"></i></button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            $i++;
-                                        }
-                                        ?>
-                                        </tbody>
+                                        <tbody id="usersList"></tbody>
                                     </table>
                                 </div>
                             </div>
