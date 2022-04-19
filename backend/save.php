@@ -28,7 +28,7 @@ if (count($_POST) > 0) {
         $last_name = trim($_POST['last_name']);
         $role = $_POST['role'];
         $status = $_POST['status'];
-        $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id = $id";
+        $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id = '$id'";
         if (mysqli_query($conn, $sql)) {
             echo json_encode(array("statusCode" => 200, "id" => $id, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
         } else {
@@ -41,7 +41,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'single_delete') {
         $id = $_POST['id'];
-        $sql = "DELETE FROM `users` WHERE id = $id";
+        $sql = "DELETE FROM `users` WHERE id = '$id'";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
@@ -54,7 +54,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_delete') {
         $id = $_POST['id'];
-        $sql = "DELETE FROM `users` WHERE id in ($id)";
+        $sql = "DELETE FROM `users` WHERE id in ('$id')";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
@@ -68,7 +68,7 @@ if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_set_active') {
         $id = $_POST['id'];
         $status = true;
-        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ($id)";
+        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ('$id')";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
@@ -82,7 +82,7 @@ if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_set_inactive') {
         $id = $_POST['id'];
         $status = false;
-        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ($id)";
+        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ('$id')";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
