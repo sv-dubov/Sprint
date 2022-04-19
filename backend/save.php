@@ -3,7 +3,8 @@
 include 'database.php';
 
 if (count($_POST) > 0) {
-    if ($_POST['type'] == 'add_user') {
+    $type = $_POST['type'];
+    if ($type == 'add_user') {
         $first_name = trim($_POST['first_name']);
         $last_name = trim($_POST['last_name']);
         $role = $_POST['role'];
@@ -11,7 +12,7 @@ if (count($_POST) > 0) {
         $sql = "INSERT INTO `users`(`first_name`, `last_name`,`role`,`status`) 
 		VALUES ('$first_name','$last_name','$role','$status')";
         if (mysqli_query($conn, $sql)) {
-            echo json_encode(array("statusCode" => 200));
+            echo json_encode(array("statusCode" => 200, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }
@@ -20,7 +21,8 @@ if (count($_POST) > 0) {
 }
 
 if (count($_POST) > 0) {
-    if ($_POST['type'] == 'edit_user') {
+    $type = $_POST['type'];
+    if ($type == 'edit_user') {
         $id = $_POST['id'];
         $first_name = trim($_POST['first_name']);
         $last_name = trim($_POST['last_name']);
@@ -28,7 +30,7 @@ if (count($_POST) > 0) {
         $status = $_POST['status'];
         $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id = $id";
         if (mysqli_query($conn, $sql)) {
-            echo json_encode(array("statusCode" => 200));
+            echo json_encode(array("statusCode" => 200, "id" => $id, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
         } else {
             echo "Error: " . $sql . "<br>" . mysqli_error($conn);
         }

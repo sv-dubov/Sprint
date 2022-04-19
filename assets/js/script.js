@@ -39,18 +39,20 @@ $(document).on('click', '#btn-add', function (e) {
         url: "backend/save.php",
         type: "POST",
         data: data,
+        dataType: "JSON",
         success: function (dataResult) {
-            let dataRes = JSON.parse(dataResult);
-            if (dataRes.statusCode === 200) {
+            if (dataResult.statusCode === 200) {
+                if (dataResult.type == 'add_user')
+                    $('#usersList').append(renderTableTemplate(dataResult));
+                else if (dataResult.type == 'edit_user')
+                    $('#' + dataResult.id).replaceWith(renderTableTemplate(dataResult));
                 $('#btn-add').button('reset');
                 $('#user_add_form')[0].reset();
                 $('#addUserModal').modal('hide');
-                //location.reload();
-                $('#usersList').html("");
-                getUsers();
-            } else if (dataRes.statusCode === 201) {
-                alert(dataRes);
+            } else if (dataResult.statusCode === 201) {
+                alert(dataResult);
             }
+            checkboxTooltip();
         }
     })
 });
@@ -136,9 +138,9 @@ $(document).on("click", "#btn-actions", function () {
                         type: 'multiple_delete',
                         id: selected_values
                     },
-                    success: function (response) {
+                    success: function (dataResult) {
                         $('#deleteUserModal').modal('hide');
-                        let ids = response.split(",");
+                        let ids = dataResult.split(",");
                         for (let i = 0; i < ids.length; i++) {
                             $("#" + ids[i]).remove();
                         }
@@ -213,4 +215,37 @@ function checkboxTooltip() {
             $('#selectAll').prop('checked', false);
         }
     });
+}
+
+function renderTableTemplate(data) {
+    let status_color;
+    if (data.status == 1)
+        status_color = "active-circle";
+    else if (data.status == 0)
+        status_color = "not-active-circle";
+    let template = "<tr id='" + data.id + "'>" +
+        "<td class='align-middle'>" +
+        "<div class='custom-checkbox' id='checkbox2'>" +
+        "<input type='checkbox' class='user_checkbox' data-user-id='" + data.id + "'>" +
+        "<label for='checkbox2'>" + "</label>" +
+        "</div>" +
+        "</td>" +
+        "<td class='text-nowrap align-middle'>" + data.first_name + ' ' + data.last_name + "</td>" +
+        "<td class='text-nowrap align-middle'>" +
+        "<span>" + data.role + "</span>" + "</td>" +
+        "<td class='text-center align-middle'><i class='fa fa-circle " + status_color + "'></td>" +
+        "<td class='text-center align-middle'>" +
+        "<div class='btn-group align-top'>" +
+        "<button class='btn btn-sm btn-outline-secondary badge' type='button' data-toggle='modal' data-target='#editUserModal'>" +
+        "<i class='fa fa-edit update' data-toggle='tooltip' data-id='" + data.id + "'" +
+        " data-first_name='" + data.first_name + "'" +
+        " data-last_name='" + data.last_name + "'" +
+        " data-role='" + data.role + "'" +
+        " data-status='" + data.status + "'" +
+        " title='Edit'>" + "</i>" + "</button>" +
+        "<button class='btn btn-sm btn-outline-secondary badge' type='button' data-toggle='modal' data-target='#deleteUserModal'>" +
+        "<i class='fa fa-trash delete' data-toggle='tooltip' data-id='" + data.id + "'" +
+        " title='Delete'>" + "</i>" + "</button>" +
+        "</div>" + "</td>" + "</tr>";
+    return template;
 }
