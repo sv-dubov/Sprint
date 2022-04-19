@@ -54,7 +54,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_delete') {
         $id = $_POST['id'];
-        $sql = "DELETE FROM `users` WHERE id in ('$id')";
+        $sql = "DELETE FROM `users` WHERE id in ($id)";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
@@ -68,7 +68,7 @@ if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_set_active') {
         $id = $_POST['id'];
         $status = true;
-        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ('$id')";
+        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ($id)";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
@@ -82,7 +82,7 @@ if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_set_inactive') {
         $id = $_POST['id'];
         $status = false;
-        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ('$id')";
+        $sql = "UPDATE `users` SET `status`='$status' WHERE id in ($id)";
         if (mysqli_query($conn, $sql)) {
             echo $id;
         } else {
