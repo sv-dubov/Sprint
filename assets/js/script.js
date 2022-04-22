@@ -75,13 +75,12 @@ $(document).on('click', '#delete_single', function () {
         success: function (dataResult) {
             $('#deleteUserModal').modal('hide');
             $("#" + dataResult).remove();
-            $('#usersList').html("");
-            getUsers();
         }
     });
 });
 
-$(document).on("click", "#btn-actions", function () {
+$(document).on("click", "#btn-actions", function (e) {
+    e.preventDefault();
     let action_value = $('#actions').val();
     let action2_value = $('#actions2').val();
     let user = [];
@@ -92,7 +91,7 @@ $(document).on("click", "#btn-actions", function () {
         $('.info-body').html('Please, select records');
         $('#warningModal').modal('show');
     } else {
-        if (action_value == 0 || action2_value == 0) {
+        if (action_value == null && action2_value == null) {
             $('.info-body').html('Please, select action');
             $('#warningModal').modal('show');
         }
@@ -106,9 +105,16 @@ $(document).on("click", "#btn-actions", function () {
                     type: 'multiple_set_active',
                     id: selected_values
                 },
-                success: function () {
-                    $('#usersList').html("");
-                    getUsers();
+                success: function (dataResult) {
+                    $('#selectAll').prop('checked', false);
+                    let ids = dataResult.split(",");
+                    for (let i = 0; i < ids.length; i++) {
+                        $("tr[data-tr-id='" + ids[i] + "']").find("#circle").removeClass('not-active-circle').addClass('active-circle');
+                    }
+                    let checkbox = $('table tbody input[type="checkbox"]');
+                    checkbox.each(function () {
+                        this.checked = false;
+                    });
                 }
             });
         } else if (action_value == 2 || action2_value == 2) {
@@ -121,9 +127,16 @@ $(document).on("click", "#btn-actions", function () {
                     type: 'multiple_set_inactive',
                     id: selected_values
                 },
-                success: function () {
-                    $('#usersList').html("");
-                    getUsers();
+                success: function (dataResult) {
+                    $('#selectAll').prop('checked', false);
+                    let ids = dataResult.split(",");
+                    for (let i = 0; i < ids.length; i++) {
+                        $("tr[data-tr-id='" + ids[i] + "']").find("#circle").removeClass('active-circle').addClass('not-active-circle');
+                    }
+                    let checkbox = $('table tbody input[type="checkbox"]');
+                    checkbox.each(function () {
+                        this.checked = false;
+                    });
                 }
             });
         } else if (action_value == 3 || action2_value == 3) {
@@ -140,6 +153,7 @@ $(document).on("click", "#btn-actions", function () {
                     },
                     success: function (dataResult) {
                         $('#deleteUserModal').modal('hide');
+                        $('#selectAll').prop('checked', false);
                         let ids = dataResult.split(",");
                         for (let i = 0; i < ids.length; i++) {
                             $("#" + ids[i]).remove();
@@ -163,7 +177,7 @@ function getUsers() {
                     status_color = "active-circle";
                 else if (value['status'] == 0)
                     status_color = "not-active-circle";
-                let template = "<tr id='" + value['id'] + "'>" +
+                let template = "<tr id='" + value['id'] + "' data-tr-id='" + value['id'] + "'>" +
                     "<td class='align-middle'>" +
                     "<div class='custom-checkbox' id='checkbox2'>" +
                     "<input type='checkbox' class='user_checkbox' data-user-id='" + value['id'] + "'>" +
@@ -173,7 +187,7 @@ function getUsers() {
                     "<td class='text-nowrap align-middle'>" + value['first_name'] + ' ' + value['last_name'] + "</td>" +
                     "<td class='text-nowrap align-middle'>" +
                     "<span>" + value['role'] + "</span>" + "</td>" +
-                    "<td class='text-center align-middle'><i class='fa fa-circle " + status_color + "'></td>" +
+                    "<td class='text-center align-middle'><i class='fa fa-circle " + status_color + "' id='circle'></td>" +
                     "<td class='text-center align-middle'>" +
                     "<div class='btn-group align-top'>" +
                     "<button class='btn btn-sm btn-outline-secondary badge' type='button' data-toggle='modal' data-target='#editUserModal'>" +
@@ -223,7 +237,7 @@ function renderTableTemplate(data) {
         status_color = "active-circle";
     else if (data.status == 0)
         status_color = "not-active-circle";
-    let template = "<tr id='" + data.id + "'>" +
+    let template = "<tr id='" + data.id + "' data-tr-id='" + data.id + "'>" +
         "<td class='align-middle'>" +
         "<div class='custom-checkbox' id='checkbox2'>" +
         "<input type='checkbox' class='user_checkbox' data-user-id='" + data.id + "'>" +
@@ -233,7 +247,7 @@ function renderTableTemplate(data) {
         "<td class='text-nowrap align-middle'>" + data.first_name + ' ' + data.last_name + "</td>" +
         "<td class='text-nowrap align-middle'>" +
         "<span>" + data.role + "</span>" + "</td>" +
-        "<td class='text-center align-middle'><i class='fa fa-circle " + status_color + "'></td>" +
+        "<td class='text-center align-middle'><i class='fa fa-circle " + status_color + "' id='circle'></td>" +
         "<td class='text-center align-middle'>" +
         "<div class='btn-group align-top'>" +
         "<button class='btn btn-sm btn-outline-secondary badge' type='button' data-toggle='modal' data-target='#editUserModal'>" +
