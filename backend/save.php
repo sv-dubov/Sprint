@@ -9,12 +9,15 @@ if (count($_POST) > 0) {
         $last_name = trim($_POST['last_name']);
         $role = $_POST['role'];
         $status = $_POST['status'];
-        $sql = "INSERT INTO `users`(`first_name`, `last_name`,`role`,`status`) 
-		VALUES ('$first_name','$last_name','$role','$status')";
-        if (mysqli_query($conn, $sql)) {
-            echo json_encode(array("statusCode" => 200, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
+        if (!empty($first_name) && !empty($last_name)) {
+            $sql = "INSERT INTO `users`(`first_name`, `last_name`,`role`,`status`) VALUES ('$first_name','$last_name','$role','$status')";
+            if (mysqli_query($conn, $sql)) {
+                echo json_encode(array("statusCode" => 200, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Error: required field";
         }
         mysqli_close($conn);
     }
@@ -28,11 +31,15 @@ if (count($_POST) > 0) {
         $last_name = trim($_POST['last_name']);
         $role = $_POST['role'];
         $status = $_POST['status'];
-        $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id = '$id'";
-        if (mysqli_query($conn, $sql)) {
-            echo json_encode(array("statusCode" => 200, "id" => $id, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
+        if (!empty($first_name) && !empty($last_name)) {
+            $sql = "UPDATE `users` SET `first_name`='$first_name',`last_name`='$last_name',`role`='$role',`status`='$status' WHERE id = '$id'";
+            if (mysqli_query($conn, $sql)) {
+                echo json_encode(array("statusCode" => 200, "id" => $id, "first_name" => $first_name, "last_name" => $last_name, "role" => $role, "status" => $status, "type" => $type));
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo "Error: required field";
         }
         mysqli_close($conn);
     }

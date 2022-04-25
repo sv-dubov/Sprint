@@ -34,6 +34,7 @@ $(document).on('click', '.update', function () {
 // add/edit
 $(document).on('click', '#btn-add', function (e) {
     e.preventDefault();
+    validateNames();
     let data = $('#user_add_form').serialize();
     $.ajax({
         url: "backend/save.php",
@@ -262,4 +263,21 @@ function renderTableTemplate(data) {
         " title='Delete'>" + "</i>" + "</button>" +
         "</div>" + "</td>" + "</tr>";
     return template;
+}
+
+function validateNames() {
+    let f_name = $("#first_name").val();
+    let l_name = $("#last_name").val();
+
+    if (f_name == "") {
+        $('#error_first_name').show();
+        $('#first_name').focus();
+        $('#error_first_name').hide().slideDown().delay(3000).fadeOut();
+        return false;
+    } else if (l_name == "") {
+        $("#error_last_name").show();
+        $("#last_name").focus();
+        $('#error_last_name').hide().slideDown().delay(3000).fadeOut();
+        return false;
+    }
 }

@@ -77,7 +77,6 @@
             <div class="modal fade" role="dialog" tabindex="-1" id="addUserModal">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
-                        <span id="error" style="display: none"></span>
                         <form class="form" id="user_add_form">
                             <input type="hidden" name="type" id="type">
                             <input type="hidden" name="id" id="user_id">
@@ -89,10 +88,12 @@
                                 <div class="form-group">
                                     <label for="first_name">First name</label>
                                     <input type="text" id="first_name" name="first_name" class="form-control">
+                                    <span class="error" id="error_first_name">Please, enter First name</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="last_name">Last name</label>
                                     <input type="text" id="last_name" name="last_name" class="form-control">
+                                    <span class="error" id="error_last_name">Please, enter Last name</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="role">Role</label>
