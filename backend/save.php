@@ -74,7 +74,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_set_active') {
         $id = $_POST['id'];
-        $status = true;
+        $status = 1;
         $sql = "UPDATE `users` SET `status`='$status' WHERE id in ($id)";
         if (mysqli_query($conn, $sql)) {
             echo $id;
@@ -88,7 +88,7 @@ if (count($_POST) > 0) {
 if (count($_POST) > 0) {
     if ($_POST['type'] === 'multiple_set_inactive') {
         $id = $_POST['id'];
-        $status = false;
+        $status = 0;
         $sql = "UPDATE `users` SET `status`='$status' WHERE id in ($id)";
         if (mysqli_query($conn, $sql)) {
             echo $id;
