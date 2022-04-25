@@ -269,12 +269,12 @@ function validateNames() {
     let f_name = $("#first_name").val();
     let l_name = $("#last_name").val();
 
-    if (f_name == "") {
+    if (f_name.trim() == "") {
         $('#error_first_name').show();
         $('#first_name').focus();
         $('#error_first_name').hide().slideDown().delay(3000).fadeOut();
         return false;
-    } else if (l_name == "") {
+    } else if (l_name.trim() == "") {
         $("#error_last_name").show();
         $("#last_name").focus();
         $('#error_last_name').hide().slideDown().delay(3000).fadeOut();
