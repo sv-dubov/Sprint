@@ -2,12 +2,6 @@ body{
     margin-top:20px;
     background:#f8f8f8
 }
-.active-circle {
-    color: green;
-}
-.not-active-circle {
-    color: gray;
-}
 
 /* The switch - the box around the slider */
 .switch {
@@ -69,6 +63,15 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+.active-circle {
+    color: green;
+}
+
+.not-active-circle {
+    color: gray;
+}
+
+/* Errors */
 .error {
     display: none;
     color: red;

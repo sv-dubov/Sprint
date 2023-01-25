@@ -65,17 +65,19 @@ $(document).on('click', '.delete', function () {
 });
 
 $(document).on('click', '#delete_single', function () {
+    let data = $('#user_delete_form').serialize();
     $.ajax({
         url: "backend/save.php",
         type: "POST",
         cache: false,
-        data: {
-            type: 'single_delete',
-            id: $("#id_d").val()
-        },
+        data: data,
         success: function (dataResult) {
-            $('#deleteUserModal').modal('hide');
-            $("#" + dataResult).remove();
+            if (dataResult.statusCode === 200) {
+                $('#deleteUserModal').modal('hide');
+                $("#" + dataResult).remove();
+            } else if (dataResult.statusCode === 201) {
+                alert(dataResult);
+            }
         }
     });
 });
@@ -269,12 +271,12 @@ function validateNames() {
     let f_name = $("#first_name").val();
     let l_name = $("#last_name").val();
 
-    if (f_name.trim() == "") {
+    if (f_name.trim() === "") {
         $('#error_first_name').show();
         $('#first_name').focus();
         $('#error_first_name').hide().slideDown().delay(3000).fadeOut();
         return false;
-    } else if (l_name.trim() == "") {
+    } else if (l_name.trim() === "") {
         $("#error_last_name").show();
         $("#last_name").focus();
         $('#error_last_name').hide().slideDown().delay(3000).fadeOut();

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Users table</title>
+    <title>Users MS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
@@ -123,7 +123,7 @@
             <div class="modal fade" id="deleteUserModal">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form>
+                        <form id="user_delete_form">
                             <div class="modal-header">
                                 <h4 class="modal-title-delete">Delete user</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -134,6 +134,7 @@
                                 <p class="text-warning"><small>This action cannot be undone</small></p>
                             </div>
                             <div class="modal-footer">
+                                <input type="hidden" name="type" value="single_delete">
                                 <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                                 <button type="button" class="btn btn-danger" id="delete_single">Delete</button>
                             </div>

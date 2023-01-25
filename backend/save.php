@@ -47,13 +47,19 @@ if (count($_POST) > 0) {
 }
 
 if (count($_POST) > 0) {
-    if ($_POST['type'] === 'single_delete') {
+    $type = $_POST['type'];
+    $error = null;
+    if ($type == 'single_delete') {
         $id = $_POST['id'];
-        $sql = "DELETE FROM `users` WHERE id = '$id'";
-        if (mysqli_query($conn, $sql)) {
-            echo $id;
+        if (!empty($id)) {
+            $sql = "DELETE FROM `users` WHERE id = '$id'";
+            if (mysqli_query($conn, $sql)) {
+                echo json_encode(array("statusCode" => 200, "id" => $id, "type" => $type, "error" => $error));
+            } else {
+                echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         } else {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            echo json_encode(array("statusCode" => 201, "id" => $id, "type" => $type, "error" => "User not found"));
         }
         mysqli_close($conn);
     }
